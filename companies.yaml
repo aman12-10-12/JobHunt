@@ -1,0 +1,40 @@
+# Boards to poll. One entry per company.
+#
+#   ats:   greenhouse | lever | ashby
+#   slug:  the company's board identifier (NOT its domain)
+#   name:  whatever you want to see in the digest
+#
+# The slug is the last path segment of the company's public careers board:
+#   https://boards.greenhouse.io/<slug>        -> ats: greenhouse
+#   https://jobs.lever.co/<slug>               -> ats: lever
+#   https://jobs.ashbyhq.com/<slug>            -> ats: ashby
+#
+# THESE ARE EXAMPLES — verify each one before you trust the output. Companies
+# migrate between ATS vendors and slugs go dead. Check a slug in your browser:
+#   https://boards-api.greenhouse.io/v1/boards/<slug>/jobs?content=true
+#   https://api.lever.co/v0/postings/<slug>?mode=json
+#   https://api.ashbyhq.com/posting-api/job-board/<slug>?includeCompensation=true
+#
+# A dead slug is not fatal: fetch_board prints the HTTP status and returns [],
+# so one bad entry never takes down the run. Watch the per-board job counts on
+# stdout — a board reporting 0 jobs every day is a slug that needs fixing.
+#
+# Start with 10-15 companies you would actually join. A list of 200 is mostly
+# noise and makes the prefilter counts impossible to reason about.
+
+companies:
+- {ats: lever, slug: portcast, name: Portcast}
+- {ats: lever, slug: jumpcloud, name: JumpCloud}
+- {ats: lever, slug: dnb, name: Dun & Bradstreet}
+- {ats: lever, slug: brillio-2, name: Brillio}
+- {ats: lever, slug: gohighlevel, name: HighLevel}
+- {ats: ashby, slug: Tekion, name: Tekion}
+- {ats: ashby, slug: parker, name: Parker Group}
+- {ats: ashby, slug: G2, name: G2}
+- {ats: lever, slug: jobtwine, name: JobTwine}
+- {ats: lever, slug: cxnpl, name: Constantinople}
+- {ats: lever, slug: ttecdigital, name: TTEC Digital}
+- {ats: lever, slug: paytm, name: Paytm}
+- {ats: ashby, slug: junipersquare, name: Juniper Square}
+- {ats: ashby, slug: handshake, name: Handshake}
+- {ats: ashby, slug: ispeedtolead, name: iSpeedToLead}
