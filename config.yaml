@@ -1,0 +1,210 @@
+# ============================================================
+# JOBHUNT CONFIGURATION
+# Profile: 2026 CSE Graduate | Fresher (0-1 Years)
+#
+# Target Roles:
+# 1. Software Engineering
+# 2. Backend / Full Stack Development
+# 3. Data Analytics / Business Intelligence
+# 4. Data Engineering
+# 5. AI / Machine Learning
+# Everything tunable lives here — no editing Python.
+# Tune `filters` first. It is deterministic, free, and it is what keeps the
+# LLM bill small: roughly 2000 raw postings -> 40 candidates before a single
+# token is spent.
+# ============================================================
+
+filters:
+
+  # ----------------------------------------------------------
+  # INCLUDE JOB TITLES
+  # A job must match at least one pattern.
+  # ----------------------------------------------------------
+
+  include_titles:
+
+    # Software Engineering
+    - '\bsoftware\s+(development\s+)?engineer\b'
+    - '\bsoftware\s+developer\b'
+    - '\bassociate\s+software\s+engineer\b'
+    - '\bgraduate\s+software\s+engineer\b'
+    - '\bjunior\s+software\s+engineer\b'
+    - '\bentry[\s-]?level\s+software\s+engineer\b'
+    - '\bsoftware\s+engineer\s+(i|1)\b'
+    - '\bsde\b'
+    - '\bsde\s*-?\s*(i|1)\b'
+    - '\bprogrammer\s+analyst\b'
+    - '\bapplication\s+developer\b'
+    - '\bassociate\s+engineer\b'
+    - '\bgraduate\s+engineer\b'
+    - '\bsoftware\s+engineering\s+intern\b'
+
+    # Backend Development
+    - '\bback[\s-]?end\s+(developer|engineer)\b'
+    - '\bnode\.?js\s+(developer|engineer)\b'
+    - '\bpython\s+(developer|engineer)\b'
+    - '\bapi\s+(developer|engineer)\b'
+    - '\bserver[\s-]?side\s+(developer|engineer)\b'
+    - '\bbackend\s+intern\b'
+
+    # Full Stack / Web Development
+    - '\bfull[\s-]?stack\s+(developer|engineer)\b'
+    - '\bmern\s+(stack\s+)?developer\b'
+    - '\breact(\.js)?\s+(developer|engineer)\b'
+    - '\bweb\s+developer\b'
+    - '\bfull[\s-]?stack\s+intern\b'
+    - '\bfrontend\s+(developer|engineer)\b'
+
+    # Data Analytics / Business Intelligence
+    - '\bdata\s+analyst\b'
+    - '\bjunior\s+data\s+analyst\b'
+    - '\bassociate\s+data\s+analyst\b'
+    - '\bdata\s+analytics\s+associate\b'
+    - '\bdata\s+analyst\s+intern\b'
+    - '\bdata\s+analytics\s+intern\b'
+    - '\bbusiness\s+analyst\b'
+    - '\bjunior\s+business\s+analyst\b'
+    - '\bassociate\s+business\s+analyst\b'
+    - '\bbusiness\s+intelligence\s+analyst\b'
+    - '\bbi\s+analyst\b'
+    - '\breporting\s+analyst\b'
+    - '\bproduct\s+analyst\b'
+    - '\bsql\s+analyst\b'
+    - '\bpower\s*bi\s+(developer|analyst)\b'
+    - '\bbi\s+developer\b'
+    - '\bdata\s+operations\s+analyst\b'
+    - '\boperations\s+analyst\b'
+    - '\bdecision\s+support\s+analyst\b'
+    - '\btechnology\s+business\s+analyst\b'
+
+    # Data Engineering / ETL
+    - '\bdata\s+engineer\b'
+    - '\bjunior\s+data\s+engineer\b'
+    - '\bassociate\s+data\s+engineer\b'
+    - '\bdata\s+engineering\s+intern\b'
+    - '\betl\s+developer\b'
+    - '\betl\s+engineer\b'
+    - '\banalytics\s+engineer\b'
+    - '\bdata\s+integration\s+engineer\b'
+    - '\bdatabase\s+developer\b'
+    - '\bsql\s+developer\b'
+
+    # AI / Machine Learning / LLM Applications
+    - '\bmachine\s+learning\s+engineer\b'
+    - '\bml\s+engineer\b'
+    - '\bmachine\s+learning\s+intern\b'
+    - '\bai\s+engineer\b'
+    - '\bai\s+developer\b'
+    - '\bgenerative\s+ai\s+(engineer|developer)\b'
+    - '\bgen[\s-]?ai\s+(engineer|developer)\b'
+    - '\bllm\s+(engineer|developer)\b'
+    - '\bapplied\s+ai\s+engineer\b'
+    - '\bai\s+application\s+developer\b'
+    - '\bai\s+intern\b'
+    - '\bml\s+intern\b'
+
+    # Graduate / Entry-Level / Associate Opportunities
+    - '\bgraduate\s+engineer\s+trainee\b'
+    - '\bgraduate\s+trainee\b'
+    - '\bsoftware\s+engineer\s+trainee\b'
+    - '\btechnology\s+analyst\b'
+    - '\bassociate\s+technology\s+analyst\b'
+    - '\btechnical\s+analyst\b'
+    - '\bassociate\s+technical\s+consultant\b'
+    - '\bapplication\s+support\s+engineer\b'
+    - '\bengineering\s+intern\b'
+    - '\btechnology\s+intern\b'
+    - '\bdeveloper\s+intern\b'
+
+
+  # ----------------------------------------------------------
+  # EXCLUDE JOB TITLES
+  # An exclude match overrides an include match.
+  # ----------------------------------------------------------
+
+  exclude_titles:
+
+    # Senior / Experienced Positions
+    - '\b(senior|sr\.?|staff|principal|distinguished|fellow)\b'
+    - '\b(lead|architect)\b'
+    - '\b(sde|engineer|developer)\s*(ii|iii|iv|2|3|4)\b'
+
+    # Management
+    - '\b(director|vice president|head of|chief|cto)\b'
+    - '\bengineering manager\b'
+    - '\bpeople manager\b'
+
+    # Unrelated Sales / Nontechnical Roles
+    - '\b(sales|account executive|recruiter|talent acquisition)\b'
+    - '\b(customer support|customer service|technical support)\b'
+    - '\b(graphic designer|ui designer|ux designer)\b'
+    - '\bcontent writer\b'
+    - '\bdigital marketing\b'
+
+    # Specialized Areas Outside Current Priorities
+    - '\b(ios|android|mobile app|game developer)\b'
+    - '\b(embedded|firmware|kernel|hardware engineer)\b'
+
+    # Research-Heavy Roles
+    - '\b(data scientist|machine learning scientist|research scientist)\b'
+    - '\bresearch fellow\b'
+
+    # Internships / Apprenticeships With Excessive Experience
+    # Keep this list short to avoid rejecting suitable fresher jobs.
+    - '\b(5|6|7|8|9|10)\+?\s+years?\s+(of\s+)?experience\b'
+
+
+  # ----------------------------------------------------------
+  # LOCATION FILTERS
+  # ----------------------------------------------------------
+
+  locations:
+    - bangalore
+    - bengaluru
+    - mysore
+    - mysuru
+    - hyderabad
+    - pune
+    - chennai
+    - gurgaon
+    - gurugram
+    - noida
+    - delhi
+    - mumbai
+    - india
+
+  allow_remote: true
+
+  # Only recent postings
+  max_age_days: 14
+
+
+# ============================================================
+# LLM SCREENING
+# ============================================================
+
+# Postings processed per API request
+screen_batch_size: 8
+
+# Characters retained from the job description
+screen_jd_chars: 2500
+
+# Characters retained for application / resume drafting
+draft_jd_chars: 6000
+
+# Minimum relevance score out of 10
+score_threshold: 7.0
+
+# Maximum shortlisted jobs per digest
+max_per_digest: 5
+
+
+# ============================================================
+# FILE PATHS
+# ============================================================
+
+companies_file: companies.yaml
+profile_file: profile.json
+seen_file: seen.json
+digest_file: out/digest.html
+tracker_csv: out/tracker.csv
