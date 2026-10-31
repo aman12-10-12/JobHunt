@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from jobhunt import mock
 from jobhunt.fetch import parse_ashby, parse_greenhouse, parse_lever, strip_html
 from jobhunt.mock import fetch_all_mock
+from jobhunt.prefilter import prefilter
 
 CONFIG = yaml.safe_load((Path(__file__).resolve().parent.parent / "config.yaml")
                         .read_text(encoding="utf-8"))
@@ -104,3 +105,84 @@ def test_parsers_take_decoded_json_not_a_response():
     assert parse_greenhouse("x", "X", {}) == []
     assert parse_lever("x", "X", []) == []
     assert parse_ashby("x", "X", {}) == []
+
+
+# -------------------------------------------------------------- prefilter ---
+
+@pytest.mark.parametrize("title", [
+    "Software Engineer II, Distributed Systems",
+    "Software Development Engineer, Core Infra",
+    "Backend Engineer (Go)",
+    "Site Reliability Engineer",
+    "SDE II",
+])
+def test_include_titles_match_real_titles(title):
+    inc = FILTERS["include_titles"]
+    assert any(re.search(p, title, re.I) for p in inc), title
+
+
+def test_bare_sde_regex_does_not_match_the_spelled_out_title():
+    """The bug: `sde` looks like it covers "Software Development Engineer".
+    It does not — they share no substring. \\bsde\\b plus the spelled-out
+    variant is why both titles survive the filter."""
+    assert not re.search(r"\bsde\b", "Software Development Engineer", re.I)
+    assert re.search(r"\bsde\b", "SDE II", re.I)
+    inc = FILTERS["include_titles"]
+    assert any(re.search(p, "Software Development Engineer, Core Infra", re.I) for p in inc)
+
+
+@pytest.mark.parametrize("title", [
+    "Staff Software Engineer, Storage",       # too senior
+    "Engineering Manager, Platform",          # management track
+    "Enterprise Account Executive",           # wrong function
+    "Frontend Engineer, Design Systems",      # wrong discipline
+    "Data Scientist, Growth",                 # wrong discipline
+])
+def test_junk_titles_are_rejected(title):
+    inc, exc = FILTERS["include_titles"], FILTERS["exclude_titles"]
+    included = any(re.search(p, title, re.I) for p in inc)
+    excluded = any(re.search(p, title, re.I) for p in exc)
+    assert excluded or not included, f"{title!r} would have survived"
+
+
+def test_full_mock_funnel_keeps_only_the_five_real_matches():
+    kept = prefilter(fetch_all_mock(), FILTERS)
+    titles = sorted(j.title for j in kept)
+    assert titles == [
+        "Backend Engineer (Go)",
+        "Site Reliability Engineer",
+        "Software Development Engineer, Core Infra",
+        "Software Engineer II, Distributed Systems",
+        "Software Engineer, Networking",
+    ]
+
+
+def test_stale_posting_is_dropped_by_freshness_gate():
+    kept = prefilter(fetch_all_mock(), FILTERS)
+    assert not any("Senior Software Engineer, Platform" == j.title for j in kept)
+
+
+def test_wrong_city_dropped_but_remote_kept():
+    kept = prefilter(fetch_all_mock(), FILTERS)
+    assert not any("San Francisco" in (j.location or "") for j in kept)
+    assert any("Remote" in (j.location or "") for j in kept)
+
+
+def test_allow_remote_is_what_lets_an_out_of_region_remote_role_through():
+    """"Remote (India)" already matches the `india` location, so it is the
+    wrong fixture for this. Use a remote role that names no allowed city."""
+    from jobhunt.fetch import Job
+    remote = Job(job_id="lever:x:1", ats="lever", company="X",
+                 title="Backend Engineer", location="Remote - Global",
+                 url="https://example.com", description="Go")
+
+    kept_on = prefilter([remote], dict(FILTERS, allow_remote=True))
+    kept_off = prefilter([remote], dict(FILTERS, allow_remote=False))
+
+    assert len(kept_on) == 1
+    assert kept_off == []
+
+
+def test_empty_filters_keep_everything():
+    jobs = fetch_all_mock()
+    assert len(prefilter(jobs, {})) == len(jobs)
