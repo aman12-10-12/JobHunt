@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+profile.json
+*.pdf
+out/
+seen.json
+__pycache__/
+*.py[cod]
+.venv/
+.DS_Store
+.claude/settings.local.json
